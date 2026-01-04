@@ -1,25 +1,25 @@
-# Quirky Daily Journal 🌿
+# One Year Journal: Cosmic Edition 🌌
 
-A beautiful, open-source desktop daily journal app inspired by the "One Year Daily Journal" iOS app. Reimagined with a modern, minimalist aesthetic and a focus on pure, distraction-free writing.
+A beautiful, open-source desktop daily journal app that transforms your year into a glowing constellation of memories. Reimagined with a "Cosmic / Ethereal Night" aesthetic, featuring deep space gradients, twinkling stars, and immersive soundscapes.
 
 ## ✨ Features
 
-- **Quarterly Garden Grid**: A balanced 3x4 grid layout that visualizes your year in perfect symmetry.
-- **Interactive Dots**: Every day is a clickable dot. Click any past or future date to plant a memory.
-- **Glassmorphism UI**: Experience a premium writing environment with frosted glass overlays (`backdrop-blur-2xl`) that blur the world behind your words.
-- **Modern Minimalist Design**:
-    - **Clean Typography**: *Courier Prime* for an authentic, typewriter-like feel.
-    - **Deep Blue Theme**: A calming, deep blue palette (`#0000aa`) on a soft gray canvas.
-    - **No Clutter**: A floating navigation pill and simple, intuitive controls.
-- **Privacy First**: All data is stored locally in your browser (LocalStorage). No servers, no tracking.
+- **Cosmic Atmosphere**: A deep indigo universe (`#0f172a`) with animated stars and ambient glows that breathe life into your journaling experience.
+- **Constellation Streaks**: Watch your consistency light up the sky—consecutive journal entries are visually connected by glowing constellation lines.
+- **Immersive Soundscapes**:
+    - **Glass Chimes**: Soft, crystalline sounds when opening entries or planting memories.
+    - **Cosmic Hover**: Subtle, ethereal hums when exploring your year grid.
+- **Glassmorphism UI**: Premium frosted glass cards and overlays (`backdrop-blur-xl`) that float weightlessly above the cosmic background.
+- **Symmetrical Grid**: A perfectly balanced 3x4 month layout that visualizes your entire year at a glance.
+- **Privacy First**: All data is stored locally in your browser (LocalStorage). Your memories stay on your device.
 
 ## 🛠️ Tech Stack
 
 - **Frontend**: React 19, TypeScript, Vite
-- **Styling**: Tailwind CSS 4, Shadcn UI
+- **Styling**: Tailwind CSS 4, Framer Motion (for complex animations)
 - **State Management**: Zustand (with persistence)
+- **Audio**: Custom synthesized sound effects (Python-generated)
 - **Icons**: Lucide React
-- **Fonts**: Courier Prime (Monospace)
 
 ## 🚀 Getting Started
 
@@ -68,6 +68,7 @@ The output will be in the `dist` directory, ready to be deployed to any static h
 ## 🎨 Customization
 
 - **Theme**: Colors and fonts can be customized in `client/src/index.css`.
+- **Sounds**: Audio assets are located in `client/public/sounds/`.
 - **Port**: The default port is set to `3003`. You can change this in `vite.config.ts`.
 
 ## 📄 License

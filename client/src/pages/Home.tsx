@@ -2,6 +2,7 @@ import Layout from '@/components/Layout';
 import YearGrid from '@/components/YearGrid';
 import { useState, useEffect } from 'react';
 import { useJournalStore } from '@/lib/store';
+import { useSound } from '@/hooks/useSound';
 import { format } from 'date-fns';
 import { cn } from '@/lib/utils';
 import { X } from 'lucide-react';
@@ -11,6 +12,7 @@ export default function Home() {
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [text, setText] = useState("");
   const { entries, addEntry } = useJournalStore();
+  const { playSound } = useSound();
   
   const dateKey = format(selectedDate, "yyyy-MM-dd");
   const existingEntry = entries[dateKey];
@@ -22,6 +24,7 @@ export default function Home() {
   }, [isWriting, existingEntry, selectedDate]);
 
   const handleDayClick = (date: Date) => {
+    playSound('glass-chime');
     setSelectedDate(date);
     setIsWriting(true);
   };
@@ -29,6 +32,7 @@ export default function Home() {
   const handleSave = () => {
     if (text.trim()) {
       addEntry(dateKey, text.trim());
+      playSound('glass-chime');
     }
     setIsWriting(false);
   };
@@ -70,7 +74,10 @@ export default function Home() {
             
             {/* Single Close Button (Top Right) */}
             <button 
-              onClick={() => setIsWriting(false)}
+              onClick={() => {
+                setIsWriting(false);
+                playSound('soft-click');
+              }}
               className="absolute top-6 right-6 text-primary/50 hover:text-primary transition-colors p-2 hover:bg-primary/5 rounded-full"
             >
               <X size={24} />
