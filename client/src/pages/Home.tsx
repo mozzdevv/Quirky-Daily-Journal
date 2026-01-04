@@ -8,18 +8,23 @@ import { X } from 'lucide-react';
 
 export default function Home() {
   const [isWriting, setIsWriting] = useState(false);
+  const [selectedDate, setSelectedDate] = useState(new Date());
   const [text, setText] = useState("");
   const { entries, addEntry } = useJournalStore();
   
-  const today = new Date();
-  const dateKey = format(today, "yyyy-MM-dd");
+  const dateKey = format(selectedDate, "yyyy-MM-dd");
   const existingEntry = entries[dateKey];
 
   useEffect(() => {
     if (isWriting) {
       setText(existingEntry?.text || "");
     }
-  }, [isWriting, existingEntry]);
+  }, [isWriting, existingEntry, selectedDate]);
+
+  const handleDayClick = (date: Date) => {
+    setSelectedDate(date);
+    setIsWriting(true);
+  };
 
   const handleSave = () => {
     if (text.trim()) {
@@ -38,11 +43,11 @@ export default function Home() {
           isWriting ? "blur-md scale-95 opacity-60 pointer-events-none" : "opacity-100 scale-100"
         )}>
           <div className="flex flex-col items-center gap-12 w-full">
-            <YearGrid />
+            <YearGrid onDayClick={handleDayClick} />
             
-            {/* Plant Memory Button (Trigger) */}
+            {/* Plant Memory Button (Trigger for Today) */}
             <button 
-              onClick={() => setIsWriting(true)}
+              onClick={() => handleDayClick(new Date())}
               className="group flex flex-col items-center gap-3 transition-all hover:scale-105 mt-12"
             >
               <div className="w-16 h-16 rounded-full border-2 border-primary flex items-center justify-center text-primary text-4xl font-light pb-1 group-hover:bg-primary/5 transition-colors shadow-lg shadow-primary/10">
@@ -74,7 +79,7 @@ export default function Home() {
             {/* Header Date */}
             <div className="mb-10">
               <div className="bg-primary/10 text-primary px-6 py-2 rounded-full font-mono text-sm tracking-wider">
-                {format(today, "MMMM d, yyyy")}
+                {format(selectedDate, "MMMM d, yyyy")}
               </div>
             </div>
 

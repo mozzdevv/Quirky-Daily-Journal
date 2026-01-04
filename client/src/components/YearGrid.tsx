@@ -2,7 +2,11 @@ import { useJournalStore } from "@/lib/store";
 import { format, eachDayOfInterval, startOfYear, endOfYear, getMonth } from "date-fns";
 import { cn } from "@/lib/utils";
 
-export default function YearGrid() {
+interface YearGridProps {
+  onDayClick?: (date: Date) => void;
+}
+
+export default function YearGrid({ onDayClick }: YearGridProps) {
   const { entries } = useJournalStore();
   const today = new Date();
   const yearStart = startOfYear(today);
@@ -46,13 +50,14 @@ export default function YearGrid() {
                 const isToday = format(day, "yyyy-MM-dd") === format(today, "yyyy-MM-dd");
 
                 return (
-                  <div
+                  <button
                     key={dateKey}
+                    onClick={() => onDayClick?.(day)}
                     className={cn(
-                      "w-3 h-3 rounded-full transition-all duration-300 cursor-pointer",
+                      "w-1.5 h-1.5 rounded-full transition-all duration-300 cursor-pointer", // Reduced size to 6px (w-1.5)
                       hasEntry 
-                        ? "bg-primary scale-110 shadow-[0_0_10px_rgba(0,0,170,0.4)]" 
-                        : "bg-primary/10 hover:bg-primary/30 hover:scale-125",
+                        ? "bg-primary scale-125 shadow-[0_0_8px_rgba(0,0,170,0.4)]" 
+                        : "bg-primary/10 hover:bg-primary/40 hover:scale-150",
                       isToday && !hasEntry && "ring-2 ring-primary ring-offset-2 ring-offset-background animate-pulse"
                     )}
                     title={format(day, "MMM d, yyyy")}
