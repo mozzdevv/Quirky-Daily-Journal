@@ -1,75 +1,68 @@
 import { useJournalStore } from "@/lib/store";
+import { format, eachDayOfInterval, startOfYear, endOfYear, getMonth } from "date-fns";
 import { cn } from "@/lib/utils";
-import { format, isLeapYear } from "date-fns";
-import { useState } from "react";
-import EntryModal from "./EntryModal";
 
 export default function YearGrid() {
-  const entries = useJournalStore((state) => state.entries);
-  const [selectedDate, setSelectedDate] = useState<Date | null>(null);
+  const { entries } = useJournalStore();
+  const today = new Date();
+  const yearStart = startOfYear(today);
+  const yearEnd = endOfYear(today);
   
-  const currentYear = new Date().getFullYear();
-  const totalDays = isLeapYear(new Date(currentYear, 0, 1)) ? 366 : 365;
-  const days = Array.from({ length: totalDays }, (_, i) => {
-    const date = new Date(currentYear, 0, i + 1);
-    return {
-      date,
-      dayOfYear: i + 1,
-      entry: entries[format(date, "yyyy-MM-dd")],
-    };
+  const days = eachDayOfInterval({ start: yearStart, end: yearEnd });
+
+  // Group days by month for better layout control
+  const months = Array.from({ length: 12 }, (_, i) => {
+    return days.filter(day => getMonth(day) === i);
   });
 
-  const today = new Date();
-  const todayStr = format(today, "yyyy-MM-dd");
-
   return (
-    <div className="flex flex-col items-center w-full max-w-[340px] mx-auto">
+    <div className="w-full max-w-5xl mx-auto px-8">
       {/* Header */}
       <div className="mb-12 text-center">
-        <div className="inline-block bg-primary text-primary-foreground px-4 py-1 rounded-full text-sm font-bold mb-4">
-          {currentYear}
+        <div className="inline-block bg-primary text-primary-foreground px-6 py-1.5 rounded-full text-sm font-bold mb-4 shadow-lg shadow-primary/20">
+          {format(today, "yyyy")}
         </div>
-        <div className="flex gap-4 justify-center text-primary/60 text-2xl">
-          {/* Weather/Mood icons placeholder - static for now to match video vibe */}
-          <span>☼</span>
-          <span>☁</span>
-          <span>☂</span>
+        <div className="flex gap-6 justify-center text-primary/40 text-2xl">
+          <span className="hover:text-primary transition-colors cursor-default">☼</span>
+          <span className="hover:text-primary transition-colors cursor-default">☁</span>
+          <span className="hover:text-primary transition-colors cursor-default">☂</span>
         </div>
       </div>
 
-      {/* Grid */}
-      <div className="grid grid-cols-12 gap-x-3 gap-y-3 w-full">
-        {days.map(({ date, entry }) => {
-          const isToday = format(date, "yyyy-MM-dd") === todayStr;
-          const hasEntry = !!entry;
-          
-          return (
-            <button
-              key={date.toISOString()}
-              onClick={() => setSelectedDate(date)}
-              className={cn(
-                "w-1.5 h-1.5 rounded-full transition-all duration-300 mx-auto",
-                hasEntry 
-                  ? "bg-primary scale-125" 
-                  : "bg-primary/20 hover:bg-primary/40",
-                isToday && !hasEntry && "ring-2 ring-primary ring-offset-2 ring-offset-background animate-pulse"
-              )}
-              title={format(date, "MMM d, yyyy")}
-            />
-          );
-        })}
-      </div>
+      {/* Desktop Grid Layout */}
+      <div className="grid grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-x-12 gap-y-12">
+        {months.map((monthDays, monthIndex) => (
+          <div key={monthIndex} className="flex flex-col gap-4">
+            {/* Month Label */}
+            <div className="text-primary/40 font-mono text-xs uppercase tracking-[0.2em] text-center">
+              {format(monthDays[0], "MMM")}
+            </div>
+            
+            {/* Month Grid */}
+            <div className="grid grid-cols-7 gap-3 place-items-center">
+              {monthDays.map((day) => {
+                const dateKey = format(day, "yyyy-MM-dd");
+                const hasEntry = !!entries[dateKey];
+                const isToday = format(day, "yyyy-MM-dd") === format(today, "yyyy-MM-dd");
 
-      {/* Footer Info */}
-      <div className="mt-12 text-center text-xs text-primary/50 font-mono">
-        trial ends in 23 hours
+                return (
+                  <div
+                    key={dateKey}
+                    className={cn(
+                      "w-2 h-2 rounded-full transition-all duration-300 cursor-default",
+                      hasEntry 
+                        ? "bg-primary scale-125 shadow-[0_0_8px_rgba(0,0,170,0.3)]" 
+                        : "bg-primary/10 hover:bg-primary/30",
+                      isToday && !hasEntry && "ring-1 ring-primary ring-offset-2 ring-offset-background animate-pulse"
+                    )}
+                    title={format(day, "MMM d, yyyy")}
+                  />
+                );
+              })}
+            </div>
+          </div>
+        ))}
       </div>
-
-      <EntryModal 
-        isOpen={!!selectedDate} 
-        onClose={() => setSelectedDate(null)} 
-        date={selectedDate || new Date()} 
-      />
     </div>
   );
 }
