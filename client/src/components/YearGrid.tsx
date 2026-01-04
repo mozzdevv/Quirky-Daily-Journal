@@ -23,13 +23,13 @@ export default function YearGrid({ onDayClick }: YearGridProps) {
     <div className="w-full max-w-6xl mx-auto px-8">
       {/* Header */}
       <div className="mb-16 text-center">
-        <div className="inline-block bg-primary text-primary-foreground px-8 py-2 rounded-full text-base font-bold mb-6 shadow-lg shadow-primary/20 tracking-widest">
+        <div className="inline-block bg-blue-600 text-white px-8 py-2 rounded-full text-base font-bold mb-6 shadow-[0_0_20px_rgba(37,99,235,0.5)] tracking-widest border border-blue-400/30">
           {format(today, "yyyy")}
         </div>
-        <div className="flex gap-8 justify-center text-primary/40 text-3xl">
-          <span className="hover:text-primary transition-colors cursor-default">☼</span>
-          <span className="hover:text-primary transition-colors cursor-default">☁</span>
-          <span className="hover:text-primary transition-colors cursor-default">☂</span>
+        <div className="flex gap-8 justify-center text-blue-200/40 text-3xl">
+          <span className="hover:text-white transition-colors cursor-default drop-shadow-[0_0_8px_rgba(255,255,255,0.5)]">☼</span>
+          <span className="hover:text-white transition-colors cursor-default drop-shadow-[0_0_8px_rgba(255,255,255,0.5)]">☁</span>
+          <span className="hover:text-white transition-colors cursor-default drop-shadow-[0_0_8px_rgba(255,255,255,0.5)]">☂</span>
         </div>
       </div>
 
@@ -38,7 +38,7 @@ export default function YearGrid({ onDayClick }: YearGridProps) {
         {months.map((monthDays, monthIndex) => (
           <div key={monthIndex} className="flex flex-col gap-5 items-center">
             {/* Month Label */}
-            <div className="text-primary/40 font-mono text-xs uppercase tracking-[0.3em] text-center">
+            <div className="text-blue-200/60 font-mono text-xs uppercase tracking-[0.3em] text-center drop-shadow-[0_0_5px_rgba(191,219,254,0.3)]">
               {format(monthDays[0], "MMM")}
             </div>
             
@@ -56,9 +56,9 @@ export default function YearGrid({ onDayClick }: YearGridProps) {
                     className={cn(
                       "w-1.5 h-1.5 rounded-full transition-all duration-300 cursor-pointer", // Reduced size to 6px (w-1.5)
                       hasEntry 
-                        ? "bg-primary scale-125 shadow-[0_0_8px_rgba(0,0,170,0.4)]" 
-                        : "bg-primary/10 hover:bg-primary/40 hover:scale-150",
-                      isToday && !hasEntry && "ring-2 ring-primary ring-offset-2 ring-offset-background animate-pulse"
+                        ? "bg-white scale-125 shadow-[0_0_10px_rgba(255,255,255,0.8)]" 
+                        : "bg-white/20 hover:bg-white/60 hover:scale-150 hover:shadow-[0_0_8px_rgba(255,255,255,0.4)]",
+                      isToday && !hasEntry && "ring-2 ring-white ring-offset-2 ring-offset-transparent animate-pulse shadow-[0_0_10px_rgba(255,255,255,0.5)]"
                     )}
                     title={format(day, "MMM d, yyyy")}
                   />

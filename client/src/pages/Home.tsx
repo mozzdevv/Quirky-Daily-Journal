@@ -50,10 +50,10 @@ export default function Home() {
               onClick={() => handleDayClick(new Date())}
               className="group flex flex-col items-center gap-3 transition-all hover:scale-105 mt-12"
             >
-              <div className="w-16 h-16 rounded-full border-2 border-primary flex items-center justify-center text-primary text-4xl font-light pb-1 group-hover:bg-primary/5 transition-colors shadow-lg shadow-primary/10">
+              <div className="w-16 h-16 rounded-full border-2 border-white/30 flex items-center justify-center text-white text-4xl font-light pb-1 group-hover:bg-white/10 group-hover:border-white/60 transition-all shadow-[0_0_15px_rgba(255,255,255,0.1)] group-hover:shadow-[0_0_25px_rgba(255,255,255,0.3)]">
                 +
               </div>
-              <span className="font-mono text-primary text-sm tracking-wide">plant memory</span>
+              <span className="font-mono text-blue-100 text-sm tracking-wide group-hover:text-white transition-colors shadow-black/50 drop-shadow-md">plant memory</span>
             </button>
           </div>
         </div>
