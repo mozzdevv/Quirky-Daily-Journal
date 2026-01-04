@@ -1,11 +1,17 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import Layout from '@/components/Layout';
 import { useJournalStore } from '@/lib/store';
 import { format } from 'date-fns';
 import { cn } from '@/lib/utils';
 
 export default function Garden() {
-  const entries = useJournalStore((state) => state.getAllEntries());
+  const entriesMap = useJournalStore((state) => state.entries);
+  
+  const entries = useMemo(() => {
+    return Object.values(entriesMap).sort((a, b) => 
+      new Date(a.date).getTime() - new Date(b.date).getTime()
+    );
+  }, [entriesMap]);
 
   return (
     <Layout>

@@ -1,10 +1,16 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import Layout from '@/components/Layout';
 import { useJournalStore } from '@/lib/store';
 import { format } from 'date-fns';
 
 export default function Journal() {
-  const entries = useJournalStore((state) => state.getAllEntries());
+  const entriesMap = useJournalStore((state) => state.entries);
+  
+  const entries = useMemo(() => {
+    return Object.values(entriesMap).sort((a, b) => 
+      new Date(a.date).getTime() - new Date(b.date).getTime()
+    );
+  }, [entriesMap]);
 
   // Group entries by month
   const groupedEntries = entries.reduce((acc, entry) => {
